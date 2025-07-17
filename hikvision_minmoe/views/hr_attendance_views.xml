@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_attendance_hik_view_form" model="ir.ui.view">
+        <field name="name">hr.attendance.view.form</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />
+        <field name="arch" type="xml">
+            <field name = "in_mode" position="before">
+                <group col="4" colspan="4">
+                    <field name="status" widget="badge" 
+                           decoration-success="status == 'right_time'" 
+                           decoration-warning="status == 'late'" 
+                           decoration-danger="status == 'none'"
+                           colspan="4"
+                           />
+                </group>
+                
+                <notebook>
+                    <page string="Check in">
+                        <field name="image_checkin" widget="image" readonly="1" options='{"size": [768, 432]}'/>
+                    </page>
+                    <page string="Check out">
+                        <field name="image_checkout" widget="image" readonly="1" options='{"size": [768, 432]}'/>
+                    </page>
+                </notebook>
+            </field>
+
+            <xpath expr="//div[hasclass('oe_chatter')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_attendance_hik_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.tree</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
+        <field name="arch" type="xml">
+            <field name = "employee_id" position="after">
+                <field name="department_id"/>
+            </field>
+
+            <field name = "check_in" position="after">
+                <field name="status" widget="badge" decoration-success="status == 'right_time'" decoration-warning="status == 'late'" decoration-danger="status == 'none'"/>
+            </field>
+            <xpath expr="//field[@name='check_out']" position="attributes">
+                <attribute name="optional">hidden</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='worked_hours']" position="attributes">
+                <attribute name="optional">hidden</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='overtime_hours']" position="attributes">
+                <attribute name="optional">hidden</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="hik_attendance_view_filter" model="ir.ui.view">
+        <field name="name">hik_attendance_view_filter</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter" />
+        <field name="arch" type="xml">
+            <field name = "employee_id" position="before">
+                <filter string="Hôm nay" name="today_checkin" domain="[('check_in', '&gt;=', ((context_today()- datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 17:00:00'))), ('check_in', '&lt;', (context_today().strftime('%%Y-%%m-%%d 17:00:00')))]"/>
+                <separator/>
+                <!-- <filter string="Đúng giờ" name="late" domain="[('status', '=', 'right_time')]" />
+                <filter string="Đi muộn" name="late" domain="[('status', '=', 'late')]" />
+                <filter string="Chưa điểm danh" name="late" domain="[('status', '=', 'none')]" /> -->
+            </field>
+            <!-- <search string="Hr Attendance Search">
+                <field name="employee_id"/>
+                <field name="department_id" operator="child_of"/>
+                <field name="check_in"/>
+                <filter string="My Attendances" name="myattendances" domain="[('employee_id.user_id', '=', uid)]" />
+                <filter string="My Team" name="myteam" domain="[('employee_id.parent_id.user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="At Work" name="nocheckout" domain="[('check_out', '=', False)]" />
+                <filter string="Errors" name="errors"
+                        domain="['|', ('worked_hours', '&gt;=', 16), '&amp;', ('check_out', '=', False), ('check_in', '&lt;=',  (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"                />
+                <separator/>
+                <filter string="Check In" name="check_in_filter" date="check_in"/>
+                <filter string="Last 7 days" name="last_week" domain="[(
+                    'check_in','&gt;=', (
+                        context_today() + datetime.timedelta(days=-7)
+                        )
+                    )]"/>
+                <filter string="Last 3 Months" invisible="1" name="last_three_months" domain="[(
+                    'check_in','&gt;=', (
+                        context_today() + datetime.timedelta(days=-90)
+                        )
+                    )]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Check In" name="groupby_name" context="{'group_by': 'check_in:week'}"/>
+                    <filter string="Employee" name="employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Check Out" name="groupby_check_out" context="{'group_by': 'check_out'}"/>
+                </group>
+            </search> -->
+        </field>
+    </record>
+
+    <!-- <record id="hr_attendance_hik_view_pivot" model="ir.ui.view">
+        <field name="name">hr.attendance.pivot</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_pivot" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_in']" position="attributes">
+                <attribute name="interval">day</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='overtime_hours']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+            <!-- <field name="employee_id" type="row"/>
+            <field name="check_in" type="col" interval="month"/>
+            <field name="worked_hours" type="measure" widget="float_time"/>
+            <field name="overtime_hours" type="measure" widget="float_time"/> -->
+        <!-- </field>
+    </record> -->
+
+</odoo>

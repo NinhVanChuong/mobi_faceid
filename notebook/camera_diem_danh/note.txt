@@ -1,0 +1,6 @@
+faceid.mobifone5.vn
+/ISAPI
+443
+HTTPS
+
+vnnet/vnnet123

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="zalo_oa_tree_view" model="ir.ui.view">
+        <field name="name">zalo.oa.tree</field>
+        <field name="model">zalo.oa</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="app_name"/>
+                <field name="department_ids" widget="many2many_tags"/>
+                <field name="write_date" string="Cập nhật lần cuối"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="zalo_oa_form_view" model="ir.ui.view">
+        <field name="name">zalo.oa.form</field>
+        <field name="model">zalo.oa</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="update_access_token" type="object" string="Cập nhật Access Token" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="write_date" string="Cập nhật lần cuối"/>
+                            <field name="access_token" password="False"/>
+                            <field name="refresh_token" password="False"/>
+                        </group>
+                        <group>
+                            <field name="app_name"/>
+                            <field name="secret_key" password="False"/>
+                            <field name="app_id" string="App ID"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Phòng ban" name="departments">
+                            <field name="department_ids" widget="many2many" options="{'no_create': True, 'no_create_edit': True}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="parent_id"/>
+                                    <field name="manager_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="zalo_oa_action" model="ir.actions.act_window">
+        <field name="name">Zalo OA</field>
+        <field name="res_model">zalo.oa</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="zalo_oa_tree_view"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="zalo_oa_menu"
+        name="Zalo OA"
+        action="zalo_oa_action"
+        groups="hr.group_hr_manager"
+        parent="hr.menu_human_resources_configuration"
+        sequence="100"/>
+
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_attendance_daily_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Báo cáo ngày</h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>Ngày báo cáo:</strong>
+                            <p t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                        </div>
+                    </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Họ và tên</th>
+                                <th>Đơn vị</th>
+                                <th>Thời gian vào</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="employee">
+                                <td><span t-field="employee.name"/></td>
+                                <td><span t-field="employee.department_id.name"/></td>
+                                <td>
+                                    <t t-if="employee.attendance_ids">
+                                        <span t-field="employee.attendance_ids[0].check_in"/>
+                                    </t>
+                                    <t t-else="">
+                                        null
+                                    </t>
+                                </td>
+                                <td>
+                                    <t t-if="employee.attendance_ids">
+                                        <t t-if="employee.attendance_ids[0].status == 'late'">
+                                            <span class="text-warning">Muộn</span>
+                                        </t>
+                                        <t t-elif="employee.attendance_ids[0].status == 'right_time'">
+                                            <span class="text-success">Đúng giờ</span>
+                                        </t>
+                                    </t>
+                                    <t t-elif="employee.leave_ids.filtered(lambda l: l.state == 'confirm' and l.holiday_status_id.name == 'nghi_phep')">
+                                        <span class="text-info">Nghỉ phép</span>
+                                    </t>
+                                    <t t-elif="employee.leave_ids.filtered(lambda l: l.state == 'confirm' and l.holiday_status_id.name == 'cong_tac')">
+                                        <span class="text-info">Đi công tác</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-danger">Chưa điểm danh</span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_attendance_daily">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="advance_hr_attendance_dashboard.report_attendance_daily_document"/>
+            </t>
+        </t>
+    </template>
+</odoo> 

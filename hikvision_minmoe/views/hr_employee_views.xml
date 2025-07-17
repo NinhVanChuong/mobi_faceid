@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <field name = "job_title" position="after">
+                <group>
+                    <field name="id" />
+                    <field name="emp_code_mobifone"/>
+                    <field name="shift_id" />
+                    <field name="show_attendance_report" />
+                    <field name="telegram_user_id" />
+                    <field name="zalo_user_id"></field>
+                    <field name="zalo_register_status" widget="badge" decoration-success="zalo_register_status == 'registered'" decoration-info="zalo_register_status == 'not_registered'"/>
+                </group>
+                
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

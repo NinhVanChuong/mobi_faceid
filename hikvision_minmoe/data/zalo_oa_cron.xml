@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Cron job để cập nhật access token của Zalo OA -->
+        <record id="zalo_oa_update_access_token_cron" model="ir.cron">
+            <field name="name">Cập nhật Access Token Zalo OA</field>
+            <field name="model_id" ref="model_zalo_oa"/>
+            <field name="state">code</field>
+            <field name="code">
+# Tìm tất cả các Zalo OA và cập nhật access token
+zalo_oas = env['zalo.oa'].search([])
+for zalo_oa in zalo_oas:
+    zalo_oa.update_access_token()
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="nextcall">2024-01-01 18:00:00</field>
+        </record>
+    </data>
+</odoo> 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_attendance_shift_register_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.register.tree</field>
+        <field name="model">hr.attendance.shift.register</field>
+        <field name="arch" type="xml">
+            <tree string="Đăng ký ca làm việc" decoration-info="state=='draft'" decoration-success="state=='confirmed'" decoration-muted="state=='done'">
+                <field name="employee_id"/>
+                <field name="week_start_date"/>
+                <field name="week_end_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_shift_register_form" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.register.form</field>
+        <field name="model">hr.attendance.shift.register</field>
+        <field name="arch" type="xml">
+            <form string="Đăng ký ca làm việc">
+                <header>
+                    <button name="action_confirm" string="Xác nhận" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Hoàn thành" type="object" invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id" placeholder="Chọn nhân viên"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="week_start_date"/>
+                            <field name="week_end_date" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Chi tiết ca làm việc">
+                            <field name="shift_lines">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="check_in"/>
+                                    <field name="check_out"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_shift_register_search" model="ir.ui.view">
+        <field name="name">hr.attendance.shift.register.search</field>
+        <field name="model">hr.attendance.shift.register</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm đăng ký ca làm việc">
+                <field name="employee_id"/>
+                <field name="week_start_date"/>
+                <field name="week_end_date"/>
+                <field name="state"/>
+                <filter string="Nháp" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Đã xác nhận" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Hoàn thành" name="done" domain="[('state','=','done')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_shift_register" model="ir.actions.act_window">
+        <field name="name">Đăng ký ca làm việc</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.attendance.shift.register</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo đăng ký ca làm việc mới
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_hr_attendance_shift_register"
+        name="Đăng ký ca làm việc"
+        parent="hr_attendance.menu_hr_attendance_root"
+        action="action_hr_attendance_shift_register"
+        sequence="10"/>
+</odoo> 

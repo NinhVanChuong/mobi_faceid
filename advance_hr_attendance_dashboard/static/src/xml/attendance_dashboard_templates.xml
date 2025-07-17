@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<template id="template" xml:space="preserve">
+    <!--    This is an XML template for an HR Attendance Dashboard that includes a form -->
+    <!--    for filtering attendance data, a search bar for finding specific employees, -->
+    <!--    and an HTML table for displaying attendance information. The template also -->
+    <!--    adds a "Print PDF" button to the form using jQuery.-->
+    <t t-name="AttendanceDashboard" owl="1">
+        <div class="o_action_manager" style="height: 100%; overflow-y:scroll"
+             t-ref="attendance-dashboard">
+        <div class="employee_dashboard">
+        <div style="padding:10px;">
+            <p><h1>Bảng chấm công</h1></p>
+        </div>
+            <div style="float:left; width:25%; padding:0px 10px;">
+            <form class="form-group col-6 w-auto">
+                <input type="month" style="border:1px solid #333;" id="filter_duration"
+                        class="form-control" t-on-change="onChangeFilter" t-att-value="state.selectedDuration"/>
+            </form>
+            <form class="form-group col-6 w-auto" style="margin-top: 10px;">
+                <div class="department-filter-container">
+                    <input type="text" 
+                           class="form-control" 
+                           list="department-list"
+                           placeholder="Tìm kiếm đơn vị..." 
+                           t-on-input="onSearchDepartment"
+                           t-on-change="onChangeDepartment"/>
+                    <datalist id="department-list">
+                        <option value="Tất cả đơn vị" data-id=""/>
+                        <t t-foreach="filteredDepartments" t-as="department" t-key="department.id">
+                            <option t-att-value="department.name" t-att-data-id="department.id"/>
+                        </t>
+                    </datalist>
+                </div>
+            </form>
+            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                <button type="button" t-on-click="onViewReport"
+                        class="btn btn-primary view_report">
+                    Xem báo cáo
+                </button>
+                <button type="button"
+                        t-on-click="_OnClickExcelReport"
+                        class="btn btn-secondary export_attendance_excel_report">
+                    Xuất Excel
+                </button>
+            </div>
+        </div>
+            <div style="display:flex; margin-left:37px; width:30%; float:left;">
+            <input type="text" class="search-bar" style="border:1px solid #333;"
+                   id="search-bar"/>
+                <t t-jquery=".search-bar" t-operation="after">
+                <button type="object" t-on-click="_OnClickSearchEmployee"
+                        class="btn btn-primary search_employee"
+                        style="margin:0px 10px;">
+                    Search
+                </button>
+            </t>
+        </div>
+            <div class="attendance_table">
+            <table id="attendance_table" class="hr_attendance"/>
+        </div>
+            <div class="attendance">
+            <table class="table" id="attendance_table_nm">
+                <thead class="attendance">
+                    <th style="width:200px;"><strong>Họ và tên</strong></th>
+                    <th style="width:9%;"><strong>Đơn vị</strong></th>
+                    <t t-foreach="state.filteredDurationDates" t-as="tDate"
+                       t-key="tDate_index">
+                        <th style="width:6%;" t-out="formatDate(tDate)"/>
+                    </t>
+                    <th style="width:0%; text-align: center;"><strong>Total</strong></th>
+                </thead>
+                <tbody class="attendance">
+                    <tr t-foreach="state.employeeData" t-as="employee"
+                        t-key="employee_index" class="attendance">
+                        <td t-out="employee.name"
+                            t-att-data-name="employee.name"
+                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"/>
+                        <td t-out="employee.department_id"
+                            t-att-data-name="employee.department_id"/>
+                        <t
+                                t-foreach="employee.leave_data" t-as="leave"
+                                t-key="leave_index">
+                            <td class="employee-leave-data table-data"
+                                t-attf-style="background: {{ leave.color }};">
+                                <t t-if="leave.state">
+                                <span class="leave-data"
+                                      t-out="leave.state or 'null'"/>
+                                </t>
+                            </td>
+                        </t>
+                        <td t-out="employee.total_present_count"
+                            style="text-align: center;"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+    </t>
+</template>

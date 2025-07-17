@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hikvision_minmoe_zalo_oa,hikvision_minmoe.zalo_oa,model_zalo_oa,hr.group_hr_manager,1,1,1,1
+access_hikvision_hr_employee,hikvision_minmoe.hr.employee,model_hr_employee,hikvision_minmoe.hr_department_officer,1,1,1,1
+access_hikvision_hr_attendance,hikvision_minmoe.hr.attendance,model_hr_attendance,hikvision_minmoe.hr_department_officer,1,0,0,0
+access_hikvision_hr_attendance_shift,hikvision_minmoe_hr_manager.hr.attendance.shift,model_hr_attendance_shift,hr.group_hr_manager,1,1,1,1
+access_hikvision_hr_attendance_shift_officer,hikvision_minmoe.hr.attendance.shift.officer,model_hr_attendance_shift,hikvision_minmoe.hr_department_officer,1,1,1,1
+access_hr_attendance_shift_register_employee,hr.attendance.shift.register.employee,model_hr_attendance_shift_register,group_hr_department_employee,1,1,1,0
+access_hr_attendance_employee,hr.attendance.employee,hr_attendance.model_hr_attendance,group_hr_department_employee,1,0,0,0
+access_hr_attendance_public,hr.attendance.public,hr_attendance.model_hr_attendance,base.group_public,1,0,0,0

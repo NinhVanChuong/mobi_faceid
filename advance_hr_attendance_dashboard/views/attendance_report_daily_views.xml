@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action cho báo cáo ngày -->
+    <record id="action_attendance_report_daily" model="ir.actions.client">
+        <field name="name">Báo cáo ngày</field>
+        <field name="tag">attendance_report_daily</field>
+    </record>
+
+    <!-- Action cho báo cáo PDF -->
+    <record id="action_report_attendance_daily" model="ir.actions.report">
+        <field name="name">Báo cáo ngày</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">advance_hr_attendance_dashboard.report_attendance_daily</field>
+        <field name="report_file">advance_hr_attendance_dashboard.report_attendance_daily</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Menu item cho báo cáo ngày -->
+    <menuitem id="menu_attendance_report_daily"
+              name="Báo cáo ngày"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="action_attendance_report_daily"
+              sequence="0"/>
+</odoo> 
