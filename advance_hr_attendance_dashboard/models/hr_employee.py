@@ -48,12 +48,12 @@ class HrEmployee(models.Model):
             'advance_hr_attendance_dashboard.absent', '\u2716')
         
         dates = False
-        department_id = False
+        department_ids = False
         
         # Xử lý params
         if isinstance(params, dict):
             duration = params.get('duration')
-            department_id = params.get('department_id')
+            department_ids = params.get('department_ids')  # Thay đổi từ department_id thành department_ids
         else:
             # Để tương thích với code cũ
             duration = params
@@ -100,13 +100,9 @@ class HrEmployee(models.Model):
         
         # Lọc theo phòng ban nếu có
         domain = [('company_id', 'in', allowed_company_ids)]
-        if department_id:
-            # Lấy đơn vị được chọn và tất cả đơn vị con
-            department = self.env['hr.department'].browse(int(department_id))
-            child_departments = self.env['hr.department'].search([
-                ('id', 'child_of', department.id)
-            ])
-            domain.append(('department_id', 'in', child_departments.ids))
+        if department_ids:
+            # Chỉ lấy nhân viên thuộc đơn vị được chọn, không lấy đơn vị con
+            domain.append(('department_id', 'in', department_ids))
         else:
             # Nếu không chọn đơn vị, chỉ hiển thị nhân viên thuộc đơn vị của người dùng và các đơn vị con
             user_employee = self.env.user.employee_id
