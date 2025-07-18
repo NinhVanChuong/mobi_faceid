@@ -11,7 +11,7 @@
     <record id="hr_department_officer_rule" model="ir.rule">
         <field name="name">Department officer rule</field>
         <field name="model_id" ref="model_hr_employee"/>
-        <field name="domain_force">[('department_id', 'child_of', user.department_id.id)]</field>
+        <field name="domain_force">[('department_id', 'in', user.employee_id.manage_department_ids.ids)]</field>
         <field name="groups" eval="[(4, ref('hikvision_minmoe.hr_department_officer'))]"/>
     </record>
 

@@ -37,6 +37,7 @@
         "views/advance_hr_attendance_dashboard_menus.xml",
         "views/attendance_report_daily_views.xml",
         "views/res_config_settings_views.xml",
+        "views/hr_employee_views.xml",
         "report/hr_attendance_reports.xml",
         "report/hr_attendance_templates.xml",
         "report/attendance_report_daily_templates.xml"
