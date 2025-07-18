@@ -37,6 +37,8 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
     _check_company_auto = True
 
+    manage_department_ids = fields.Many2many('hr.department', string='Manage Department')
+
     @api.model
     def get_employee_leave_data(self, params):
         """Returns data to the dashboard"""
