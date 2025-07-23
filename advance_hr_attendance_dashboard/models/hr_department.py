@@ -16,12 +16,12 @@ class HrDepartment(models.Model):
             
         user_department = employee.department_id
         
-        if  user.has_group('hr.group_hr_manager'):
-            all_departments = self.search([]) - user_department
-            return all_departments.read(['id', 'name'])
-        
-        elif user.has_group('hikvision_minmoe.hr_department_officer'):
-            employee_manage_department_ids = employee.manage_department_ids - user_department
-            return employee_manage_department_ids.read(['id', 'name'])
-        else:
-            return []
+        # if user.has_group('hr.group_hr_manager'):
+        #     all_departments = self.search([]) - user_department
+        #     return all_departments.read(['id', 'name'])
+        #
+        # elif user.has_group('hikvision_minmoe.hr_department_officer'):
+        #     employee_manage_department_ids = employee.manage_department_ids - user_department
+        #     return employee_manage_department_ids.read(['id', 'name'])
+        # else:
+        return []
