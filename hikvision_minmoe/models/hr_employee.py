@@ -1,4 +1,7 @@
 from odoo import models, fields, api, exceptions, _
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class HrEmployee(models.Model):
     _name = "hr.employee"
@@ -15,6 +18,11 @@ class HrEmployee(models.Model):
     show_attendance_report = fields.Boolean(string="Hiển thị báo cáo điểm danh", default=True)
 
     telegram_user_id = fields.Char()
+
+    def search_debug(self):
+        department_ids = self.env.user.employee_id.manage_department_ids.ids if self.env.user.employee_id else [0]
+        _logger.info(f'Department IDs: {department_ids}')
+        return department_ids
 
     def _compute_zalo_register_status(self):
         for r in self:

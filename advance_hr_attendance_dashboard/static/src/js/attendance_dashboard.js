@@ -97,6 +97,43 @@ class AttendanceDashboard extends Component{
         return this.state.selectedDepartments.includes(departmentId);
     }
 
+    // Hàm để kiểm tra tất cả đơn vị có được chọn hay không
+    areAllDepartmentsSelected() {
+        if (this.filteredDepartments.length === 0) return false;
+        return this.filteredDepartments.every(dept => 
+            this.state.selectedDepartments.includes(dept.id)
+        );
+    }
+
+    // Hàm để chọn/bỏ chọn tất cả đơn vị
+    onToggleAllDepartments() {
+        const allSelected = this.areAllDepartmentsSelected();
+        
+        if (allSelected) {
+            // Bỏ chọn tất cả đơn vị đang hiển thị
+            this.filteredDepartments.forEach(dept => {
+                const index = this.state.selectedDepartments.indexOf(dept.id);
+                const nameIndex = this.state.selectedDepartmentNames.indexOf(dept.name);
+                if (index > -1) {
+                    this.state.selectedDepartments.splice(index, 1);
+                }
+                if (nameIndex > -1) {
+                    this.state.selectedDepartmentNames.splice(nameIndex, 1);
+                }
+            });
+        } else {
+            // Chọn tất cả đơn vị đang hiển thị
+            this.filteredDepartments.forEach(dept => {
+                if (!this.state.selectedDepartments.includes(dept.id)) {
+                    this.state.selectedDepartments.push(dept.id);
+                }
+                if (!this.state.selectedDepartmentNames.includes(dept.name)) {
+                    this.state.selectedDepartmentNames.push(dept.name);
+                }
+            });
+        }
+    }
+
     onChangeDepartment(ev) {
         const selectedName = ev.target.value;
         

@@ -33,6 +33,7 @@
     "website": "https://www.cybrosys.com",
     "depends": ["hr_holidays", "hr", "hr_attendance", "web"],
     "data": [
+        # "security/employee_department.xml",
         "views/hr_leave_type_views.xml",
         "views/advance_hr_attendance_dashboard_menus.xml",
         "views/attendance_report_daily_views.xml",
