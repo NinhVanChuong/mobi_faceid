@@ -11,7 +11,7 @@
     <record id="hr_department_officer_rule1" model="ir.rule">
         <field name="name">Department officer rule</field>
         <field name="model_id" ref="model_hr_employee"/>
-        <field name="domain_force">[('department_id', 'in', user.employee_id.search_debug() if user.employee_id else [0])]</field>
+        <field name="domain_force">[('department_id', 'in', user.employee_id.manage_department_ids.ids if user.employee_id else [0])]</field>
         <field name="groups" eval="[(4, ref('hikvision_minmoe.hr_department_officer'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
